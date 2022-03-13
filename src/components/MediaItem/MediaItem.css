@@ -1,0 +1,35 @@
+.media_item {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  padding: 5px;
+  margin: 5px 0;
+  background-color: black;
+  position: relative;
+  color: white;
+  top: 0;
+  position: relative;
+  cursor:pointer;
+}
+
+
+
+@media (max-width: 550px) {
+  .media {
+    width: 50%;
+  }
+}
+
+.media_item img {
+  border-radius: 10px;
+
+}
+
+.media_item h1 {
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
+  padding: 8px 0;
+}
+
+
