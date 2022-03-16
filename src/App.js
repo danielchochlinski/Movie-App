@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
-import Searchbox from "./components/SearchBox/SearchBar";
 import Main from "./pages/Main";
 import Movies from "./pages/Movies";
 

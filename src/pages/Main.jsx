@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import NavBar from "../components/NavBar/NavBar";
-import SearchBar from "../components/SearchBox/SearchBar";
 import MediaList from "../components/MediaList/MediaList";
 import "../App.css";
 import MediaListTwo from "../components/MediaList/MediaListTwo";
