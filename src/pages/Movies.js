@@ -2,6 +2,9 @@ import axios from "axios";
 import React from "react";
 import MediaList from "../components/MediaList/MediaList";
 import SearchBar from "../components/SearchBox/SearchBar";
+import SearchInput from "../components/SearchBox/SearchInput";
+import SelectGenres from "../components/SelectGenres/SelectGenres";
+
 
 const Movies = () => {
   const style = {
@@ -12,7 +15,6 @@ const Movies = () => {
   };
   return (
     <div>
-      <SearchBar placeholder="search movies" />
       <MediaList style={style} />
     </div>
   );
