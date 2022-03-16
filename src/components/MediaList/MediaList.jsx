@@ -3,11 +3,13 @@ import axios from "axios";
 import MediaItem from "../MediaItem/MediaItem";
 import "./MediaList.css";
 
-const MediaList = () => {
+const MediaList = ({style}) => {
   const [media, setMedia] = useState();
+  console.log(style)
 
   const getTrending = async () => {
-    const API_URL = `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_TMDB_API_KEY}`;
+    const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`;
+
 
     const response = await axios.get(API_URL);
     setMedia(response.data.results);
@@ -21,7 +23,8 @@ const MediaList = () => {
   return (
     <div className="media_list">
       {media?.map((media) => (
-        <MediaItem
+        <MediaItem 
+          style={style}
           key={media.id}
           id={media.id}
           poster={media.poster_path}

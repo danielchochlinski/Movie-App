@@ -1,30 +1,23 @@
 import { useEffect, useState } from "react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
+import { img_300, noProfile } from "../../config/config";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import axios from "axios";
+import useAxios from "../../hooks/useAxios";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { img_300, noProfile } from "../../config/config";
-import "./MediaSlider.css";
-import "swiper/css/autoplay";
 
-const MediaSlider = ({ id, type }) => {
-  const [cast, setCast] = useState();
-  const fetchCredits = async () => {
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`
-    );
-    setCast(response.data.cast);
-  };
+import "./ActorSlider.css";
 
-  useEffect(() => {
-    fetchCredits();
-  }, []);
+const ActorSlider = ({ id, type }) => {
+  const url = `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`;
+
+  const { error, loading, data } = useAxios(url);
+
   return (
     <Swiper
       // install Swiper modules
@@ -32,13 +25,12 @@ const MediaSlider = ({ id, type }) => {
       spaceBetween={20}
       slidesPerView={5}
       navigation
-      pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
       autoplay={{ delay: 1500 }}
       style={{ marginTop: "20px", backdropFilter: "blur(5px)" }}
     >
-      {cast?.map((cast) => (
-        <SwiperSlide>
+      {data?.cast?.map((cast, i) => (
+        <SwiperSlide key={i}>
           <div className="media_silder_item">
             <img
               style={{ objectFit: "fill" }}
@@ -57,4 +49,4 @@ const MediaSlider = ({ id, type }) => {
   );
 };
 
-export default MediaSlider;
+export default ActorSlider;

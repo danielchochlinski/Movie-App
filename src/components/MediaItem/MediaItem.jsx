@@ -13,6 +13,7 @@ const MediaItem = ({
   vote_average,
   type,
   id,
+  style,
 }) => {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -27,19 +28,32 @@ const MediaItem = ({
   };
 
   return (
-    <div onClick={showMoreHandler} className="media_item">
-      {!showDetails && (
+    <div onClick={showMoreHandler} style={style} className="media_item">
+      <div>
+        {!showDetails && (
           <Badge
+            style={{ position: "relative", float: "right" }}
             color={vote_average > 6.9 ? "primary" : "secondary"}
             badgeContent={vote_average || "No Rating"}
           ></Badge>
-      )}
+        )}
+      </div>
 
       <img src={poster ? `${img_300}/${poster}` : unavailable} />
-      <h1>{title || name}</h1>
-      <span>{formatedDate || formatedFirstAir}</span>
+      <div className="media_item_info">
+        <h1>{title || name}</h1>
+        <p>{formatedDate || formatedFirstAir}</p>
+      </div>
+
       {showDetails && (
-        <MediaDetails onCloseModal={hideMoreHandler} id={id} type={type} />
+        <MediaDetails
+          onCloseModal={hideMoreHandler}
+          id={id}
+          type={type}
+          name={name}
+          title={title}
+          rating={vote_average}
+        />
       )}
     </div>
   );

@@ -4,61 +4,77 @@ import Modal from "../Modal/Modal";
 import { img_500, unavailable } from "../../config/config";
 import axios from "axios";
 import "./MediaDetails.css";
-import MediaSlider from "../MediaSlider/MediaSlider";
+import MediaSlider from "../ActorSlider/ActorSlider";
 import Rating from "@mui/material/Rating";
+import { CloseOutlined } from "@mui/icons-material";
 
-const MediaDetails = ({ id, type, onCloseModal }) => {
-  const [mediaDetails, setMediaDetails] = useState();
-  const [rating, setRating] = useState();
-  const fetchData = async () => {
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`
-    );
-    setMediaDetails(response.data);
-  };
+import useAxios from "../../hooks/useAxios";
+
+const MediaDetails = ({ id, onCloseModal, name, vote_average, title }) => {
+  const [value, setValue] = useState();
+  const [rating, setRating] = useState([]);
   useEffect(() => {
-    fetchData();
+    setRating(vote_average);
   }, []);
-  console.log(mediaDetails);
-  console.log(newValue)
+
+  const addNewRating = () => {
+    setValue([...rating, ...value]);
+  };
+  console.log(rating);
+  console.log(value);
+  let type;
+  if (name) {
+    type = "tv";
+  } else {
+    type = "movie";
+  }
+  const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`;
+
+  const { error, loading, data } = useAxios(url);
+
   return (
-    <Modal onCloseModal={onCloseModal} backdrop={mediaDetails?.backdrop_path}>
+    <Modal onCloseModal={onCloseModal} backdrop={data?.backdrop_path}>
       <div className="media_details_container">
-        {mediaDetails && (
+        {data && (
           <div className="media_details">
+            <div onClick={onCloseModal}>
+              <CloseOutlined />
+            </div>
             <img
               className="media_details_landscape"
               src={
-                mediaDetails?.backdrop_path
-                  ? `${img_500}/${mediaDetails?.backdrop_path}`
+                data?.backdrop_path
+                  ? `${img_500}/${data?.backdrop_path}`
                   : unavailable
               }
-              alt={mediaDetails?.title || mediaDetails?.name}
+              alt={data?.title || data?.name}
             />
             <img
               className="media_details_portrait"
               src={
-                mediaDetails?.poster_path
-                  ? `${img_500}/${mediaDetails?.poster_path}`
+                data?.poster_path
+                  ? `${img_500}/${data?.poster_path}`
                   : unavailable
               }
-              alt={mediaDetails?.title || mediaDetails?.name}
+              alt={data?.title || data?.name}
             />
             <div className="media_details_info">
               <span className="media_details_title">
-                {mediaDetails?.title || mediaDetails?.name}
+                {data?.title || data?.name}
               </span>
-              <span>{mediaDetails?.overview}</span>
+              <span>{data?.overview}</span>
             </div>
             <div className="media_details_rating">
               <Rating
                 name="customized-10"
-                defaultValue={mediaDetails.vote_average}
+                defaultValue={data.vote_average}
+                value={value}
                 max={10}
                 color="primary"
                 size="large"
+                onClick={addNewRating}
                 onChange={(event, newValue) => {
-                  setRating(newValue)
+                  setValue(newValue);
                 }}
               />
             </div>
@@ -70,7 +86,6 @@ const MediaDetails = ({ id, type, onCloseModal }) => {
         <div>
           <MediaSlider type={type} id={id} />
         </div>
-        <button onClick={onCloseModal}>Close</button>
       </div>
     </Modal>
   );
