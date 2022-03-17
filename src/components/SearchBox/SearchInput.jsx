@@ -13,7 +13,6 @@ const SearchInput = ({ placeholder, onInputMedia }) => {
 
   const { data } = useAxios(URL);
   onInputMedia(data);
-
   return (
     <>
       <div className="container">

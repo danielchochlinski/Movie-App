@@ -3,19 +3,16 @@ import "./MediaList.css";
 import { discoverMovies } from "../../config/config";
 import useAxios from "../../hooks/useAxios";
 import SearchInput from "../SearchBox/SearchInput";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const MediaList = ({ style }) => {
   const [searchMedia, setSearchMedia] = useState(null);
   const [displayMedia, setDisplayMedia] = useState();
   const { data } = useAxios(discoverMovies);
+const inputSearchData = (data) => {
+  setSearchMedia(data);
+}
 
-  const inputSearchData = (data) => {
-    setSearchMedia(data);
-    // displayMedia.push(data);
-
-    // setSearchMedia(data);
-  };
   console.log(searchMedia)
   return (
     <>
