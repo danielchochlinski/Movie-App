@@ -11,7 +11,7 @@ const MediaList = ({ style }) => {
   const { data } = useAxios(discoverMovies);
 
   const inputSearchData = (data) => {
-    setSearchMedia(data.results);
+    setSearchMedia(data);
     // displayMedia.push(data);
 
     // setSearchMedia(data);
